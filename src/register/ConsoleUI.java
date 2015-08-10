@@ -1,8 +1,11 @@
 package register;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 
 /**
  * User interface of the application.
@@ -66,6 +69,7 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
+				saveRegister();
 				return;
 			}
 		}
@@ -74,7 +78,6 @@ public class ConsoleUI {
 	private String readLine() {
 		// In JDK 6.0 and above Console class can be used
 		// return System.console().readLine();
-
 		try {
 			return input.readLine();
 		} catch (IOException e) {
@@ -168,5 +171,22 @@ public class ConsoleUI {
 		int index = Integer.parseInt(readLine());
 		Person person = register.getPerson(index - 1);
 		register.removePerson(person);
+	}
+
+	private void saveRegister() {
+		try { // if file doesn't exists, then create it
+			File f = new File(Main.file);
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			if (!f.exists()) {
+				f.createNewFile();
+			}
+			// write object to file
+			oos.writeObject(register);
+			oos.close();
+			System.out.println("Settings saved !");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
