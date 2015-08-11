@@ -3,6 +3,7 @@ package register;
 /**
  * register.Person register.
  */
+@SuppressWarnings("serial")
 public class ArrayRegister implements Register {
 	/** register.Person array. */
 	private Person[] persons;

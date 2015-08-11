@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class ListRegister implements Register{
 	/** register.Person ListArray. */
 	private List<Person> ListRegister = new ArrayList<Person>();
@@ -55,7 +56,6 @@ public class ListRegister implements Register{
 		}
 		return p;
 	}
-
 
 	@Override
 	public void removePerson(Person person) {

@@ -32,6 +32,7 @@ public interface Register extends Serializable {
 	 * 
 	 * @param person
 	 *            person to append to this register
+	 * @return 
 	 */
 	void ArrayRegister(Person person);
 

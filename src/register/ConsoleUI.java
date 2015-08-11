@@ -2,10 +2,8 @@ package register;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 
 /**
  * User interface of the application.
@@ -13,6 +11,7 @@ import java.io.ObjectOutputStream;
 public class ConsoleUI {
 	/** register.Register of persons. */
 	private Register register;
+	private RegisterLoader regLoad = new FileRegisterLoader();
 
 	/**
 	 * In JDK 6 use Console class instead.
@@ -28,20 +27,26 @@ public class ConsoleUI {
 		PRINT, ADD, UPDATE, REMOVE, FIND, EXIT
 	};
 
-	/** Select arrayList or arrayRegister by choice */
-	public ConsoleUI(ArrayRegister arrayRegister) {
-		this.register = (ArrayRegister) arrayRegister;
-		// add person into the Register - ListArray
-		register.ArrayRegister(new Person("Janko Hrasko 1", "0906523456"));
-		register.ArrayRegister(new Person("Janko Hrasko 2", "0901223456"));
-		register.ArrayRegister(new Person("Janko Hrasko 3", "0908423456"));
-		register.ArrayRegister(new Person("Janko Hrasko 4", "0904523456"));
-		register.ArrayRegister(new Person("Janko Hrasko 5", "0908723456"));
+	/**
+	 * Select arrayList or arrayRegister by choice
+	 * 
+	 * @throws IOException
+	 */
+	public ConsoleUI(int choice) throws IOException {
+		if (regLoad.readRegisterFromFile() != null) {
+			this.register = regLoad.readRegisterFromFile();
+		} else {
+			// TODO Auto-generated catch block
+			if (choice == 1)
+				this.register = new ArrayRegister(20);
+			else if (choice == 2)
+				this.register = new ListRegister();
+			registerFill();
+		}
 	}
 
-	public ConsoleUI(ListRegister listRegister) {
-		this.register = (ListRegister) listRegister;
-
+	/** Fill register of persons */
+	private void registerFill() {
 		// add person into the Register - ArrayRegister
 		register.ArrayRegister(new Person("Janko Hrasko 1", "0900123456"));
 		register.ArrayRegister(new Person("Janko Patocka 2", "0904512548"));
@@ -69,7 +74,7 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
-				saveRegister();
+				regLoad.saveRegister(register);
 				return;
 			}
 		}
@@ -101,7 +106,7 @@ public class ConsoleUI {
 		return Option.values()[selection - 1];
 	}
 
-	// TODO: Implement the method printRegister
+	/** Print register */
 	private void printRegister() {
 		System.out.println();
 		for (int i = 0; i < register.getCount(); i++) {
@@ -111,6 +116,9 @@ public class ConsoleUI {
 		System.out.println();
 	}
 
+	/**
+	 * Add person into to register, only for unique user name and phone number.
+	 */
 	private void addToRegister() {
 		Person p = new Person(null, null);
 
@@ -138,7 +146,7 @@ public class ConsoleUI {
 		System.out.println("Add person: " + name + " (" + phoneNumber + ") sucessful !");
 	}
 
-	// TODO: Implement the method updateRegister
+	/** Update specified value (phone number or name) person in register */
 	private void updateRegister() {
 		// select person in register for update
 		System.out.println("Enter index: ");
@@ -154,10 +162,11 @@ public class ConsoleUI {
 		person.setPhoneNumber(readLine());
 	}
 
-	// TODO: Implement the method findInRegister
+	/** Find person in register by phone number or name. */
 	private void findInRegister() {
 		System.out.println("Enter Name or phone number ! ");
 		String insert = readLine();
+		// if inserted value is integer find person by phoneNumber
 		try {
 			Integer.parseInt(insert);
 			System.out.println(register.findPersonByPhoneNumber(insert));
@@ -166,27 +175,11 @@ public class ConsoleUI {
 		}
 	}
 
+	/** Remove person from register. */
 	private void removeFromRegister() {
 		System.out.println("Enter index: ");
 		int index = Integer.parseInt(readLine());
 		Person person = register.getPerson(index - 1);
 		register.removePerson(person);
-	}
-
-	private void saveRegister() {
-		try { // if file doesn't exists, then create it
-			File f = new File(Main.file);
-			FileOutputStream fos = new FileOutputStream(f);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			if (!f.exists()) {
-				f.createNewFile();
-			}
-			// write object to file
-			oos.writeObject(register);
-			oos.close();
-			System.out.println("Settings saved !");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
