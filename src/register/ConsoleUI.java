@@ -12,6 +12,7 @@ public class ConsoleUI {
 	/** register.Register of persons. */
 	private Register register;
 	private RegisterLoader regLoad = new FileRegisterLoader();
+	private DatabaseRegisterLoader dBaseReg = new DatabaseRegisterLoader();
 
 	/**
 	 * In JDK 6 use Console class instead.
@@ -33,8 +34,8 @@ public class ConsoleUI {
 	 * @throws IOException
 	 */
 	public ConsoleUI(int choice) throws IOException {
-		if (regLoad.readRegisterFromFile() != null) {
-			this.register = regLoad.readRegisterFromFile();
+		if (regLoad.readRegister() != null) {
+			this.register = regLoad.readRegister();
 		} else {
 			// TODO Auto-generated catch block
 			if (choice == 1)
@@ -74,7 +75,11 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
-				regLoad.saveRegister(register);
+				//regLoad.saveRegister(register);
+				//dBaseReg.saveRegister(register);
+				
+				if ((this.register = dBaseReg.readRegister()) != null)
+				printRegister();
 				return;
 			}
 		}

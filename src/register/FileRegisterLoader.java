@@ -26,7 +26,7 @@ public class FileRegisterLoader implements RegisterLoader {
 	 * @see register.RegisterLoader#readRegisterFromFile()
 	 */
 	@Override
-	public Register readRegisterFromFile() throws IOException {
+	public Register readRegister() throws IOException {
 		Register r = null;
 		File f = new File(file);
 		if (!f.exists())

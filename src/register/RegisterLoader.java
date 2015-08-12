@@ -7,7 +7,7 @@ public interface RegisterLoader {
 	/* (non-Javadoc)
 	 * @see register.RegisterLoader#readRegisterFromFile()
 	 */
-	Register readRegisterFromFile() throws IOException;
+	Register readRegister() throws IOException;
 
 	/* (non-Javadoc)
 	 * @see register.RegisterLoader#saveRegister(register.Register)
