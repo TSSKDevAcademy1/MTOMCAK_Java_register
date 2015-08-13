@@ -18,15 +18,9 @@ import java.io.ObjectOutputStream;
 /**Load register from file*/
 public class FileRegisterLoader implements RegisterLoader {
 	public final String file = System.getProperty("user.home") + System.getProperty("file.separator") + "register.bin";
-	
-	/* (non-Javadoc)
-	 * @see register.RegisterLoader#readRegisterFromFile()
-	 */
-	/* (non-Javadoc)
-	 * @see register.RegisterLoader#readRegisterFromFile()
-	 */
+
 	@Override
-	public Register readRegister() throws IOException {
+	public Register load() throws IOException {
 		Register r = null;
 		File f = new File(file);
 		if (!f.exists())
@@ -40,20 +34,14 @@ public class FileRegisterLoader implements RegisterLoader {
 		}
 		return r;
 	}
-	/* (non-Javadoc)
-	 * @see register.RegisterLoader#saveRegister(register.Register)
-	 */
-	/* (non-Javadoc)
-	 * @see register.RegisterLoader#saveRegister(register.Register)
-	 */
 
 	@Override
-	public void saveRegister(Register register) {
+	public void store(Register register) {
 		File f = new File(file);
 		try (FileOutputStream fos = new FileOutputStream(f); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
 			// write object to file
 			oos.writeObject(register);
-			System.out.println("Settings saved !");
+			System.out.println("Save register to file - serialize!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

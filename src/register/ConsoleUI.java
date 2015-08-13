@@ -1,7 +1,6 @@
 package register;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -9,10 +8,11 @@ import java.io.InputStreamReader;
  * User interface of the application.
  */
 public class ConsoleUI {
-	/** register.Register of persons. */
+	/** Register of persons. */
 	private Register register;
-	private RegisterLoader regLoad = new FileRegisterLoader();
-	private DatabaseRegisterLoader dBaseReg = new DatabaseRegisterLoader();
+	private RegisterLoader regFileLoad = new FileRegisterLoader();
+	private DatabaseRegisterLoader regdBaseLoad = new DatabaseRegisterLoader();
+	private TextFileRegisterLoader regTextLoad = new TextFileRegisterLoader();
 
 	/**
 	 * In JDK 6 use Console class instead.
@@ -34,14 +34,32 @@ public class ConsoleUI {
 	 * @throws IOException
 	 */
 	public ConsoleUI(int choice) throws IOException {
-		if (regLoad.readRegister() != null) {
-			this.register = regLoad.readRegister();
-		} else {
-			// TODO Auto-generated catch block
-			if (choice == 1)
-				this.register = new ArrayRegister(20);
-			else if (choice == 2)
-				this.register = new ListRegister();
+		// load person from database if exist
+		if (regdBaseLoad.load() != null) {
+			this.register = regdBaseLoad.load();
+			System.out.println("Register load from database successful !");
+			return;
+		}
+
+		// load person from (serialize) file if exist
+		if (regFileLoad.load() != null) {
+			this.register = regFileLoad.load();
+			System.out.println("Register load from file successful (with serialize)!");
+			return;
+		}
+
+		// load person from (text file) file if exist
+		if (regTextLoad.load() != null) {
+			this.register = regTextLoad.load();
+			System.out.println("Register load from file successful (no serialize)!");
+			return;
+		}
+
+		if (choice == 1) {
+			this.register = new ArrayRegister(20);
+			registerFill();
+		} else if (choice == 2) {
+			this.register = new ListRegister();
 			registerFill();
 		}
 	}
@@ -75,11 +93,9 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
-				//regLoad.saveRegister(register);
-				//dBaseReg.saveRegister(register);
-				
-				if ((this.register = dBaseReg.readRegister()) != null)
-				printRegister();
+				regFileLoad.store(register);
+				regdBaseLoad.store(register);
+				regTextLoad.store(register);
 				return;
 			}
 		}

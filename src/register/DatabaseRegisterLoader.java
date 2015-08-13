@@ -8,44 +8,51 @@ public class DatabaseRegisterLoader implements RegisterLoader {
 	public static final String URL = "jdbc:mysql://localhost/register";
 	public static final String USER = "root";
 	public static final String PASSWORD = "root";
-	private Register r;
 	/** set DB query */
 	protected static final String DATABASE_PROPERTIES = "database.properties";
 	public static final String QUERYCREATE = "CREATE TABLE register (id INT PRIMARY KEY, name VARCHAR(32) NOT NULL, phoneNumber VARCHAR(15) NOT NULL)";
 	public static final String QUERYDELETE = "DROP TABLE IF EXISTS register";
 	public static final String QUERYINSERT = "INSERT INTO register (id, name, phoneNumber) VALUES (?, ?, ?)";
 	public static final String QUERYSELECT = "SELECT * FROM register";
-	
+
 	@Override
-	public Register readRegister() {
-		Person p = new Person(null, null);
+	/**
+	 * Load persons from database to register.
+	 * 
+	 * @return register register of persons
+	 */
+	public Register load() {
+		Register r = new ListRegister();
 		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);) {
 			try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(QUERYSELECT);) {
-				 while(rs.next()) {
-					 System.out.println("Name: " + rs.getString(2) + " phone: " + rs.getString(3));
-			         p.setName(rs.getString(2)); 
-			         p.setPhoneNumber(rs.getString(3));
-					 //r.ArrayRegister(p);
-			        }
+				while (rs.next()) {
+					r.ArrayRegister(new Person(rs.getString(2), rs.getString(3)));
+				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 		return r;
 	}
 
+	/**
+	 * Returns the person at the specified position in this register.
+	 * 
+	 * @param register
+	 * 				register of persons.          
+	 */
 	@Override
-	public void saveRegister(Register register) {
+	public void store(Register register) {
 		Person p;
 		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);) {
 			try (Statement stmt = con.createStatement();) {
+				// delete table register if exist and create new table
 				stmt.executeUpdate(QUERYDELETE);
 				stmt.executeUpdate(QUERYCREATE);
 			}
 			try (PreparedStatement stmtPrepare = con.prepareStatement(QUERYINSERT);) {
-				// insert person into table
+				// insert person into database
 				for (int i = 0; i < register.getCount(); i++) {
 					p = register.getPerson(i);
 					stmtPrepare.setInt(1, i + 1);
@@ -53,9 +60,9 @@ public class DatabaseRegisterLoader implements RegisterLoader {
 					stmtPrepare.setString(3, p.getPhoneNumber());
 					stmtPrepare.executeUpdate();
 				}
+				System.out.println("Save register to Database");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
