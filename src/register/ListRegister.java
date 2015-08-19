@@ -33,7 +33,7 @@ public class ListRegister implements Register {
 
 	@Override
 	public Person findPersonByName(String name) {
-		
+		// java 8 !!!
 		return persons.stream().filter(p -> p.getName().equals(name)).findFirst().orElse(null); // java 8
 // java 7
 		//    System.out.println(match.toString());
@@ -51,9 +51,9 @@ public class ListRegister implements Register {
 	@Override
 	public Person findPersonByPhoneNumber(String phoneNumber) {
 		
-		// java 8
+		// java 8 !!!
 		return persons.stream().filter(p -> p.getPhoneNumber().equals(phoneNumber)).findFirst().orElse(null); // java 8
-//		
+//		java 7
 //		Person p = new Person(null, null);
 //		for (int i = 0; i < persons.size(); i++) {
 //			if(phoneNumber.equals(persons.get(i).getPhoneNumber()))

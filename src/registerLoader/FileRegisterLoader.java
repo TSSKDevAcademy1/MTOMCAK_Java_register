@@ -1,4 +1,4 @@
-package register;
+package registerLoader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import register.Register;
 
 /**
 * Read and save register of person from file.

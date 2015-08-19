@@ -1,10 +1,14 @@
-package register;
+package registerLoader;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import register.ListRegister;
+import register.Person;
+import register.Register;
 
 public class TextFileRegisterLoader implements RegisterLoader {
 

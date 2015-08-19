@@ -1,6 +1,8 @@
-package register;
+package registerLoader;
 
 import java.io.IOException;
+
+import register.Register;
 
 public interface RegisterLoader {
 

@@ -1,6 +1,10 @@
-package register;
+package registerLoader;
 
 import java.sql.*;
+
+import register.ListRegister;
+import register.Person;
+import register.Register;
 
 public class DatabaseRegisterLoader implements RegisterLoader {
 

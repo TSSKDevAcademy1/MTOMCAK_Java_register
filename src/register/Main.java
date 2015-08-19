@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 
+import consoleui.ConsoleUI;
+
 /**
- * Created by jaro on 3.2.2014.
+ * Register of persons. Choose selection type of list.
  */
 public class Main {
 	private static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));

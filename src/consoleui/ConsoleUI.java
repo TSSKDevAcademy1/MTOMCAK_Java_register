@@ -1,17 +1,31 @@
-package register;
+package consoleui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import register.ArrayRegister;
+import register.ListRegister;
+import register.Person;
+import register.Register;
+import registerLoader.DatabaseRegisterLoader;
+import registerLoader.FileRegisterLoader;
+import registerLoader.RegisterLoader;
+import registerLoader.TextFileRegisterLoader;
+
 /**
- * User interface of the application.
+ * Console application interface.
  */
 public class ConsoleUI {
 	/** Register of persons. */
 	private Register register;
+	
+	/** Register loader */
+	/** Load register from file if exist using serializable method. */
 	private RegisterLoader regFileLoad = new FileRegisterLoader();
+	/** Load register from database if exist. */
 	private DatabaseRegisterLoader regdBaseLoad = new DatabaseRegisterLoader();
+	/** Load register from file if exist using text file. */
 	private TextFileRegisterLoader regTextLoad = new TextFileRegisterLoader();
 
 	/**
@@ -54,7 +68,8 @@ public class ConsoleUI {
 			System.out.println("Register load from file successful (no serialize)!");
 			return;
 		}
-
+		
+		// 
 		if (choice == 1) {
 			this.register = new ArrayRegister(20);
 			registerFill();
@@ -93,6 +108,7 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
+				// store register to DB, file as object and text file.
 				regFileLoad.store(register);
 				regdBaseLoad.store(register);
 				regTextLoad.store(register);
