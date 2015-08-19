@@ -1,11 +1,7 @@
 package register;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 
 import consoleui.ConsoleUI;
 
@@ -25,6 +21,7 @@ public class Main {
 				ConsoleUI ui = new ConsoleUI(selection);
 				ui.run();
 			}
+			/**Skuska git hub commit*/
 		} while (selection <= 0);
 	}
 }
