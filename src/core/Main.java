@@ -1,4 +1,4 @@
-package register;
+package core;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import consoleui.ConsoleUI;
 
 /**
- * Register of persons. Choose selection type of list.
+ * Register of persons, consist from persons with name and phone number.
+ * Choose selection type of list.
  */
 public class Main {
 	private static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +22,6 @@ public class Main {
 				ConsoleUI ui = new ConsoleUI(selection);
 				ui.run();
 			}
-			/**Skuska git hub commit*/
 		} while (selection <= 0);
 	}
 }

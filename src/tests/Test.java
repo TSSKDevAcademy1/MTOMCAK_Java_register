@@ -6,9 +6,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import core.Person;
 import register.ArrayRegister;
 import register.ListRegister;
-import register.Person;
 import register.Register;
 
 public class Test {

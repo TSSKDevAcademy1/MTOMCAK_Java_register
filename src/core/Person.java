@@ -1,24 +1,26 @@
-package register;
+package core;
 
 import java.io.Serializable;
 
 /**
- * register.Person.
+ * Persons consist from name and phone number.
  */
-public class Person  implements Comparable<Person>, Serializable{
-	/** Name of this person. */
+public class Person implements Comparable<Person>, Serializable {
+	private static final long serialVersionUID = 1L;
+
+	/** Person name. */
 	private String name;
 
-	/** Phone number of this person. */
+	/** Person phone number. */
 	private String phoneNumber;
 
 	/**
 	 * Construct a person.
 	 * 
 	 * @param name
-	 *            name of the person
+	 *            Person name
 	 * @param phoneNumber
-	 *            phone number of the person
+	 *            Person phone number
 	 */
 	public Person(String name, String phoneNumber) {
 		this.name = name;
@@ -26,38 +28,38 @@ public class Person  implements Comparable<Person>, Serializable{
 	}
 
 	/**
-	 * Returns name of this person.
+	 * Returns name of person.
 	 * 
-	 * @return name of this person
+	 * @return person name
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Sets name of this person.
+	 * Set person name.
 	 * 
-	 * @param nameNew
-	 *            name of this person
+	 * @param name
+	 *            person name
 	 */
-	public void setName(String nameNew) {
-		name = nameNew;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * Returns phone number of this person.
+	 * Return phone number of person.
 	 * 
-	 * @return phone number of this person
+	 * @return phone number
 	 */
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	/**
-	 * Sets phone number of this person.
+	 * Sets phone number of person. Only valid phone number.
 	 * 
 	 * @param phoneNumberNew
-	 *            phone number of this person
+	 *            person phone number
 	 */
 	public void setPhoneNumber(String phoneNumberNew) {
 		if (!isValidPhoneNumber(phoneNumberNew)) {
@@ -84,7 +86,6 @@ public class Person  implements Comparable<Person>, Serializable{
 		return true;
 	}
 
-
 	/**
 	 * Returns a string representation of the person.
 	 * 
@@ -94,6 +95,7 @@ public class Person  implements Comparable<Person>, Serializable{
 		return name + " (" + phoneNumber + ")";
 	}
 
+	/** Compare person by name. Using only for ListRegister. */
 	@Override
 	public int compareTo(Person person) {
 		return this.name.compareTo(person.name);

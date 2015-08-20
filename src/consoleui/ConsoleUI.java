@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import core.Person;
 import register.ArrayRegister;
 import register.ListRegister;
-import register.Person;
 import register.Register;
 import registerLoader.DatabaseRegisterLoader;
 import registerLoader.FileRegisterLoader;
@@ -19,7 +19,7 @@ import registerLoader.TextFileRegisterLoader;
 public class ConsoleUI {
 	/** Register of persons. */
 	private Register register;
-	
+
 	/** Register loader */
 	/** Load register from file if exist using serializable method. */
 	private RegisterLoader regFileLoad = new FileRegisterLoader();
@@ -68,8 +68,8 @@ public class ConsoleUI {
 			System.out.println("Register load from file successful (no serialize)!");
 			return;
 		}
-		
-		// 
+
+		// if no
 		if (choice == 1) {
 			this.register = new ArrayRegister(20);
 			registerFill();
@@ -108,15 +108,54 @@ public class ConsoleUI {
 				findInRegister();
 				break;
 			case EXIT:
-				// store register to DB, file as object and text file.
-				regFileLoad.store(register);
-				regdBaseLoad.store(register);
-				regTextLoad.store(register);
-				return;
+				saveRegisterDestination();
+				System.exit(0);
 			}
 		}
 	}
 
+	private void saveRegisterDestination() {
+		int selection = -1;
+		String choice = "";
+		try {
+			do {
+				/** Choice save register Y/N. */
+				System.out.println("Save register ? Y/N");
+				choice = input.readLine().toUpperCase();
+				if (choice.equals("Y")) {
+					do {
+						/** Choice save destination. */
+						System.out.println("Select register destinaton: \n1 - Database "
+								+ "\n2 - File (serializable) \n3 - File (text)");
+						selection = Integer.parseInt(input.readLine());
+
+						switch (selection) {
+						case 1:
+							regdBaseLoad.store(register);
+							return;
+						case 2:
+							regFileLoad.store(register);
+							return;
+						case 3:
+							regTextLoad.store(register);
+							return;
+						default:
+							System.out.println("Selection no exist !");
+							break;
+						}
+					} while (selection <= 0 || selection > 3);
+
+				} else if (choice.equals("N")) {
+					System.out.println("Register close and not save !");
+					return;
+				}
+			} while (!choice.equals("Y") || !choice.equals("N"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** Read insert value. */
 	private String readLine() {
 		// In JDK 6.0 and above Console class can be used
 		// return System.console().readLine();
@@ -162,7 +201,7 @@ public class ConsoleUI {
 		// insert Name
 		System.out.println("Enter Name: ");
 		String name = readLine();
-
+		// check if exist
 		if (register.findPersonByName(name).getName() != null) {
 			System.out.println("Person with same name exist !");
 			return;
@@ -212,7 +251,7 @@ public class ConsoleUI {
 		}
 	}
 
-	/** Remove person from register. */
+	/** Remove person from register */
 	private void removeFromRegister() {
 		System.out.println("Enter index: ");
 		int index = Integer.parseInt(readLine());

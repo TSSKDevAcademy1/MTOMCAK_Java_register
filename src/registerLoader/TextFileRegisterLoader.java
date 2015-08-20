@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import core.Person;
 import register.ListRegister;
-import register.Person;
 import register.Register;
 
 public class TextFileRegisterLoader implements RegisterLoader {

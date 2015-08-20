@@ -1,5 +1,7 @@
 package register;
 
+import core.Person;
+
 /**
  * register.Person register.
  */

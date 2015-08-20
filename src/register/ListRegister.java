@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import core.Person;
+
 @SuppressWarnings("serial")
 public class ListRegister implements Register {
 	/** register.Person ListArray. */

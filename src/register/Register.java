@@ -2,6 +2,8 @@ package register;
 
 import java.io.Serializable;
 
+import core.Person;
+
 public interface Register extends Serializable {
 
 	/**
